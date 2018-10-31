@@ -7,7 +7,7 @@ public class Zwembad {
 	static Scanner sc = new Scanner(System.in);
 	ArrayList<Onderdeel> Onderdelen = new ArrayList<>();
 	String naam;
-	int veiligswaarde;
+	int veiligheidswaarde;
 	int toegangsprijs;		
 	
 	Zwembad (String n) {
@@ -16,26 +16,37 @@ public class Zwembad {
 	
 	Kassa kassa = new Kassa();
 	
+	void dag() {
+		opening();
+		stap(8,11);
+		
+	}
 	
 	void opening() {
-		Onderdelen.add(new Bad(1250, 25, 8));
+		Onderdelen.add(new Bad(1000, 25, 8));
 		System.out.println("Goedemorgen! Het is " + DagGenerator.setWeekdag().dagVanDeWeek + ", tijd om het zwembad te openen\nHoeveel entree wil je vragen?");
 		int invoer = sc.nextInt();
 		toegangsprijs = invoer;
 		sc.nextLine();
 		System.out.println(toegangsprijs);
+		System.out.println("U heeft " + aantalBadmeestersNodig() + " badmeesters nodig.\nHoeveel wilt u er inhuren?");
+		invoer = sc.nextInt();
+		veiligheidswaarde = setVeiligheidswaarde(invoer);
+		sc.nextLine();
+		System.out.println(veiligheidswaarde);
 	}
 	
-	void stap () {
-		for(int uur = 8 ; uur < 17; uur++) {
+	void stap (int openingsUur, int sluitingsUur) {
+		for(int uur = openingsUur ; uur < sluitingsUur; uur++) {
 			int tempBezoekers = BezoekerGenerator.gegenereerdeBezoekers(setPopulariteitOnderdelen());
 			System.out.println("Het is " + uur + ":00 uur. Dit uur komen er " + tempBezoekers + " bezoekers.");
 			kassa.setBezoekersOverzicht(tempBezoekers);
+			System.out.println(kansOpCalamiteit(veiligheidswaarde));
+			
 			sc.nextLine();
+			
 		}
-		kassa.setOmzet(toegangsprijs);
-		kassa.getBezoekersOverzicht();
-		System.out.println(kassa.getOmzet());
+		
 	}
 	
 	int setPopulariteitOnderdelen() {
@@ -45,4 +56,36 @@ public class Zwembad {
 		}
 		return populariteitOnderdelen;
 	}
+	
+	boolean kansOpCalamiteit(int veiligheidswaarde) {
+		int vw = veiligheidswaarde;
+		if (vw >= 100) {
+			vw = 99;
+		}				
+		if ((BezoekerGenerator.rand.nextInt(100) + 1) > vw) {
+			return true;
+		}
+		return false;
+	}
+	
+	int setVeiligheidswaarde (int aantalGehuurdeBadmeesters) {
+		int totaalVeiligheidswaarde = (100/aantalBadmeestersNodig()) * aantalGehuurdeBadmeesters ;
+		return totaalVeiligheidswaarde;
+	}
+	int aantalBadmeestersNodig () {
+		int aantalBadmeestersNodig = getTotaalOppervlakte() / 500;		
+		return aantalBadmeestersNodig;
+	}
+	
+	int getTotaalOppervlakte() {
+		int totaalOppervlakte = 0;
+		
+		for (int a = 0; a < Onderdelen.size() ; a++) {
+			totaalOppervlakte += Onderdelen.get(a).oppervlakte;
+		}
+				
+		
+		return totaalOppervlakte;		
+	}
 }
+

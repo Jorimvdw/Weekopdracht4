@@ -32,4 +32,10 @@ public class Kassa {
 		}
 		System.out.println("Het totaal aantal bezoekers is " + tempBezoekers);
 	}
+	
+	void Dagrapport() {
+	//	kassa.setOmzet(toegangsprijs);
+		//kassa.getBezoekersOverzicht();
+		//System.out.println(kassa.getOmzet());
+	}
 }

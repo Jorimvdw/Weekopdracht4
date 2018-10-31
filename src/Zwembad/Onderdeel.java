@@ -7,7 +7,7 @@ public abstract class Onderdeel {
 	int populariteit;
 	
 	Onderdeel(int o, int k, int p) {
-		oppervlakte = 0;
+		oppervlakte = o;
 		kostenPerM2 = k;
 		populariteit = p;
 	}
