@@ -3,7 +3,9 @@ package Zwembad;
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		Zwembad zwembad = new Zwembad("Kikibad");
+		zwembad.opening();
+		
 
 	}
 
