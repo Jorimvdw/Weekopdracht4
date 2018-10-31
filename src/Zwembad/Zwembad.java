@@ -19,7 +19,7 @@ public class Zwembad {
 	
 	void opening() {
 		Onderdelen.add(new Bad(1250, 25, 8));
-		System.out.println("Goedemorgen! Tijd om het zwembad te openen\nHoeveel entree wil je vragen?");
+		System.out.println("Goedemorgen! Het is " + DagGenerator.setWeekdag().dagVanDeWeek + ", tijd om het zwembad te openen\nHoeveel entree wil je vragen?");
 		Scanner sc = new Scanner(System.in);
 		int invoer = sc.nextInt();
 		toegangsprijs = invoer;
