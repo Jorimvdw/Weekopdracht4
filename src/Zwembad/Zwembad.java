@@ -1,9 +1,10 @@
 package Zwembad;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Zwembad {
-	ArrayList<Onderdeel> Onderdelen = new ArrayList();
+	ArrayList<Onderdeel> Onderdelen = new ArrayList<>();
 	String naam;
 	int populariteit;
 	int veiligswaarde;
@@ -26,7 +27,7 @@ public class Zwembad {
 	}
 	
 	void stap () {
-		System.out.println("Het is 8 uur. Dit uur komen er " + BezoekerGenerator.gegenereerdeBezoekers(populariteit) + " bezoekers."
+		System.out.println("Het is 8 uur. Dit uur komen er " + BezoekerGenerator.gegenereerdeBezoekers(populariteit) + " bezoekers.");
 	}
 	
 }

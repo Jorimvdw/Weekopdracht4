@@ -1,5 +1,6 @@
 package Zwembad;
 
+
 public abstract class Onderdeel {
 	int oppervlakte;
 	int kostenPerM2;
