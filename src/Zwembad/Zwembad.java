@@ -22,6 +22,7 @@ public class Zwembad {
 	void dag() {
 		opening();
 		stap(8,15);
+		eindeDag();
 		
 	}
 	
@@ -53,9 +54,8 @@ public class Zwembad {
 	
 	void eindeDag() {
 		kassa.setOmzet(toegangsprijs);
-		System.out.println("Het totaal aantal bezoekers van vandaag " + kassa.getBezoekersOverzicht());
-		System.out.println("De totale omzet van vandaag is €" + kassa.getOmzet(toegangsprijs));
-//2		kassa.maakDagRapport(DagGenerator.setWeekdag().dagVanDeWeek, badmeesters, toegangsprijs);
+		kassa.maakDagRapport(DagGenerator.setWeekdag().dagVanDeWeek, kassa.totaalSalarisBadmeester(badmeesters), toegangsprijs, badmeesters);
+		kassa.toonDagRapport();
 	}
 		
 	void slijtageOnderdelen (Onderdeel... O ) {

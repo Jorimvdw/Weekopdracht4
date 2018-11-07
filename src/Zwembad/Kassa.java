@@ -41,9 +41,17 @@ public class Kassa {
 			badmeester.get(j).setTotaalSalaris(openingsUur, sluitingsUur);
 		}
 	}
+	
+	int totaalSalarisBadmeester(ArrayList<Badmeester> badmeester) {
+		int totaalSalarisBadmeester = 0;
+		for(int i = 0; i < badmeester.size(); i++) {
+			totaalSalarisBadmeester += badmeester.get(i).getTotaalSalaris();
+		}
+		return totaalSalarisBadmeester;
+	}
 		
-	void maakDagRapport(Weekdag dagVanDeWeek, int totaalSalarisBadmeester, int toegangsprijs) {
-		DagRapport rapport = new DagRapport(dagVanDeWeek, getBezoekersOverzicht(), getOmzet(toegangsprijs), totaalSalarisBadmeester);
+	void maakDagRapport(String dagVanDeWeek, int totaalSalarisBadmeester, int toegangsprijs, ArrayList<Badmeester> badmeester) {
+		DagRapport rapport = new DagRapport(dagVanDeWeek, getBezoekersOverzicht(), getOmzet(toegangsprijs), totaalSalarisBadmeester(badmeester));
 		dagRapporten.add(rapport);
 	}
 	
@@ -53,6 +61,7 @@ public class Kassa {
 			System.out.println("Dag: \t\t" + dagRapporten.get(i).dagVanDeWeek);
 			System.out.println("Totaal aantal bezoekers: \t" + dagRapporten.get(i).totaalAantalBezoekers);
 			System.out.println("Dag omzet: \t\t" + dagRapporten.get(i).dagOmzet);
+			System.out.println("Totaal salaris badmeester is €" + dagRapporten.get(i).totaalSalarisBadmeester);
 			
 			System.out.println("\nDag winst: \t\t" + dagRapporten.get(i).dagWinst);
 
@@ -61,7 +70,7 @@ public class Kassa {
 }
 
 class DagRapport {
-	Weekdag dagVanDeWeek;
+	String dagVanDeWeek;
 	int totaalAantalBezoekers;
 	int dagOmzet;
 	int totaalSalarisBadmeester;
@@ -69,7 +78,7 @@ class DagRapport {
 //	int kostenReparatie;
 	int dagWinst = dagOmzet - (totaalSalarisBadmeester);
 	
-	DagRapport(Weekdag dagVanDeWeek, int totaalAantalBezoekers, int dagOmzet, int totaalSalarisBadmeester) {
+	DagRapport(String dagVanDeWeek, int totaalAantalBezoekers, int dagOmzet, int totaalSalarisBadmeester) {
 		this.dagVanDeWeek = dagVanDeWeek;
 		this.totaalAantalBezoekers = totaalAantalBezoekers;
 		this.dagOmzet = dagOmzet;
