@@ -1,7 +1,7 @@
 package Zwembad;
 
 public class Bad extends Onderdeel implements Onderhoudbaar{
-	
+
 	
 	Bad (int o, int k, int p) {
 		super(o, k, p);
@@ -21,9 +21,7 @@ public class Bad extends Onderdeel implements Onderhoudbaar{
 		kapot = a;
 		kansOpKapot = b;
 	}
-	
 }
-
 class Bubbelbad extends Bad {
 	Bubbelbad (int o, int k, int p) {
 		super(o, k, p);

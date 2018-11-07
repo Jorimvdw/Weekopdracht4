@@ -69,8 +69,6 @@ public class Zwembad {
 		
 		}
 	}
-	
-	
 
 	int setPopulariteitOnderdelen() {
 			for(int i = 0; i < Onderdelen.size(); i++) {
