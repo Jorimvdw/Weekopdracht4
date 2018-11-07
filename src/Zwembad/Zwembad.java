@@ -49,16 +49,7 @@ public class Zwembad {
 		kassa.betaalBadMeester(openingsUur, sluitingsUur, badmeesters);
 	}
 	
-	void slijtageOnderdelen (Onderdeel... O ) {
-		for (Onderdeel On : O) {
-			if (On instanceof Onderhoudbaar) {
-				On.kansOpKapot -= 10;
-				((Onderhoudbaar)On).kansOpKapot();
-				
-			}
-		
-		}
-	}
+	
 	
 	
 
