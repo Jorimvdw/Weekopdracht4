@@ -1,7 +1,8 @@
 package Zwembad;
 
 public class Bad extends Onderdeel implements Onderhoudbaar{
-		
+	
+	
 	Bad (int o, int k, int p) {
 		super(o, k, p);
 	}
