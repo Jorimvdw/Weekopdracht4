@@ -5,8 +5,10 @@ import java.util.*;
 public class Kassa {
 	private int omzet;
 	private ArrayList<Integer> bezoekersOverzicht = new ArrayList<>();
+	private ArrayList<DagRapport> dagRapporten = new ArrayList<>();
 	
-	int getOmzet() {
+	int getOmzet(int toegangsprijs) {
+		setOmzet(toegangsprijs);
 		return omzet;
 	}
 	
@@ -22,7 +24,7 @@ public class Kassa {
 		bezoekersOverzicht.add(bezoekers);
 	}
 	
-	void getBezoekersOverzicht() {
+	int getBezoekersOverzicht() {
 		for(int i = 0; i < bezoekersOverzicht.size(); i++) {
 			System.out.println("Het aantal bezoekers tussen " + (i + 8) + ":00 en " + (i + 9) + ":00 is :\t" + bezoekersOverzicht.get(i));
 		}
@@ -31,11 +33,48 @@ public class Kassa {
 			tempBezoekers += bezoekersOverzicht.get(j);
 		}
 		System.out.println("Het totaal aantal bezoekers is " + tempBezoekers);
+		return tempBezoekers;
 	}
 	
-	void Dagrapport() {
-	//	kassa.setOmzet(toegangsprijs);
-		//kassa.getBezoekersOverzicht();
-		//System.out.println(kassa.getOmzet());
+	void betaalBadMeester(int openingsUur, int sluitingsUur, ArrayList<Badmeester> badmeester) {
+		for(int j = 0; j < badmeester.size(); j++) {
+			badmeester.get(j).setTotaalSalaris(openingsUur, sluitingsUur);
+		}
+	}
+		
+	void maakDagRapport(Weekdag dagVanDeWeek, int totaalAantalBezoekers, int dagOmzet, int totaalSalarisBadmeester) {
+		DagRapport rapport = new DagRapport(dagVanDeWeek, totaalAantalBezoekers, dagOmzet, totaalSalarisBadmeester);
+		dagRapporten.add(rapport);
+	}
+	
+	void toonDagRapport() {
+		for(int i = 0; i < dagRapporten.size(); i++) {
+			System.out.println("Dagrapport dag " + i + ":");
+			System.out.println("Dag: \t\t" + dagRapporten.get(i).dagVanDeWeek);
+			System.out.println("Totaal aantal bezoekers: \t" + dagRapporten.get(i).totaalAantalBezoekers);
+			System.out.println("Dag omzet: \t\t" + dagRapporten.get(i).dagOmzet);
+			
+			System.out.println("\nDag winst: \t\t" + dagRapporten.get(i).dagWinst);
+
+		}
+	}
+}
+
+class DagRapport {
+	Weekdag dagVanDeWeek;
+	int totaalAantalBezoekers;
+	int dagOmzet;
+	int totaalSalarisBadmeester;
+	int kostenOnderhoud;
+	int kostenReparatie;
+	int dagWinst = dagOmzet - (kostenOnderhoud + kostenReparatie + totaalSalarisBadmeester);
+	
+	DagRapport(Weekdag dagVanDeWeek, int totaalAantalBezoekers, int dagOmzet, int totaalSalarisBadmeester) {
+		this.dagVanDeWeek = dagVanDeWeek;
+		this.totaalAantalBezoekers = totaalAantalBezoekers;
+		this.dagOmzet = dagOmzet;
+		this.totaalSalarisBadmeester = totaalSalarisBadmeester;
+//		this.kostenOnderhoud = kostenOnderhoud;
+//		this.kostenReparatie = kostenReparatie;
 	}
 }
