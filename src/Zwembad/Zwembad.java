@@ -44,10 +44,9 @@ public class Zwembad {
 			int tempBezoekers = BezoekerGenerator.gegenereerdeBezoekers(totaalPopulariteit);
 			System.out.println("Het is " + uur + ":00 uur. Dit uur komen er " + tempBezoekers + " bezoekers.");
 			kassa.setBezoekersOverzicht(tempBezoekers);
-			System.out.println(kansOpCalamiteit(veiligheidswaarde));
+			kansOpCalamiteit(veiligheidswaarde);
 			sc.nextLine();
-			System.out.println(veiligheidswaarde);
-			System.out.println(totaalPopulariteit);
+			GebruikOnderdelen();
 		}
 		kassa.betaalBadMeester(openingsUur, sluitingsUur, badmeesters);
 	}
@@ -56,7 +55,7 @@ public class Zwembad {
 		kassa.setOmzet(toegangsprijs);
 		System.out.println("Het totaal aantal bezoekers van vandaag " + kassa.getBezoekersOverzicht());
 		System.out.println("De totale omzet van vandaag is €" + kassa.getOmzet(toegangsprijs));
-		kassa.maakDagRapport(DagGenerator.setWeekdag().dagVanDeWeek, totaalSalarisBadmeester, toegangsprijs);
+//2		kassa.maakDagRapport(DagGenerator.setWeekdag().dagVanDeWeek, badmeesters, toegangsprijs);
 	}
 		
 	void slijtageOnderdelen (Onderdeel... O ) {
@@ -77,16 +76,14 @@ public class Zwembad {
 			return totaalPopulariteit;
 	}
 	
-	boolean kansOpCalamiteit(int veiligheidswaarde) {
+	void kansOpCalamiteit(int veiligheidswaarde) {
 		int vw = veiligheidswaarde;
 		if (vw >= 100) {
 			vw = 99;
 		}				
 		if ((BezoekerGenerator.rand.nextInt(100) + 1) > vw) {
 			System.out.println(genereerCalamiteit());
-			return true;
 		}
-		return false;
 	}
 	
 	int setVeiligheidswaarde (int aantalGehuurdeBadmeesters) {
@@ -119,6 +116,19 @@ public class Zwembad {
 			totaalOppervlakte += Onderdelen.get(a).oppervlakte;
 		}
 		return totaalOppervlakte;		
+	}
+	
+	void GebruikOnderdelen () {
+		for (Onderdeel o : Onderdelen) {
+			if (o instanceof Onderhoudbaar) {
+				Onderhoudbaar oh = (Onderhoudbaar) o;
+				try {
+					oh.gebruikOnderhoudbaarOnderdeel(oh);
+				} catch (OnderdeelKapotException e) {
+					
+				}		
+			}		
+		}
 	}
 }
 
