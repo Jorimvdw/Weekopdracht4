@@ -1,15 +1,12 @@
 package Zwembad;
 
-
 public class Bad extends Onderdeel implements Onderhoudbaar{
-	boolean kapot = false;
-	int kansOpKapot = 100;
 		
 	Bad (int o, int k, int p) {
 		super(o, k, p);
 	}
 	
-	void kansOpKapot() {
+	public void kansOpKapot() {
 		if ((BezoekerGenerator.rand.nextInt(100) + 1) > kansOpKapot) {
 			kapot = true;
 		}
@@ -24,5 +21,23 @@ public class Bad extends Onderdeel implements Onderhoudbaar{
 		kansOpKapot = b;
 	}
 	
-	
 }
+
+class Bubbelbad extends Bad {
+	Bubbelbad (int o, int k, int p) {
+		super(o, k, p);
+	}
+}
+
+class Golfslagbad extends Bad {
+	Golfslagbad (int o, int k, int p) {
+		super(o, k, p);
+	}
+}
+
+class Wedstrijdbad extends Bad {
+	Wedstrijdbad (int o, int k, int p) {
+		super(o, k, p);
+	}
+}
+	

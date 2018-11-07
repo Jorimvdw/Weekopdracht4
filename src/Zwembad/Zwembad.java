@@ -49,6 +49,19 @@ public class Zwembad {
 		
 	}
 	
+	void slijtageOnderdelen (Onderdeel... O ) {
+		for (Onderdeel On : O) {
+			if (On instanceof Onderhoudbaar) {
+				On.kansOpKapot -= 10;
+				((Onderhoudbaar)On).kansOpKapot();
+				
+			}
+		
+		}
+	}
+	
+	
+
 	int setPopulariteitOnderdelen() {
 		int populariteitOnderdelen = 0;
 		for(int i = 0; i < Onderdelen.size(); i++) {
@@ -78,13 +91,10 @@ public class Zwembad {
 	}
 	
 	int getTotaalOppervlakte() {
-		int totaalOppervlakte = 0;
-		
+		int totaalOppervlakte = 0;		
 		for (int a = 0; a < Onderdelen.size() ; a++) {
 			totaalOppervlakte += Onderdelen.get(a).oppervlakte;
 		}
-				
-		
 		return totaalOppervlakte;		
 	}
 }
