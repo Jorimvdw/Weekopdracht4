@@ -15,6 +15,7 @@ interface Onderhoudbaar {
 	
 	default void slijtageOnderdelen (Onderhoudbaar o) {
 		((Onderdeel)o).kansOpKapot -= 10;
+		o.kansOpKapot();
 	}		
 	
 }
@@ -25,10 +26,3 @@ class OnderdeelKapotException extends Exception{
 	}
 }
 
-void GebruikOnderdelen () {
-	for (Onderdeel o : Onderdelen) {
-		if (o instanceof Onderhoudbaar) {
-			((Onderhoudbaar) o).gebruikOnderhoudbaarOnderdeel(o);		
-		}		
-	}
-}
