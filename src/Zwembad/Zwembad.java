@@ -12,6 +12,7 @@ public class Zwembad {
 	int veiligheidswaarde;
 	int toegangsprijs;	
 	int totaalPopulariteit;
+	boolean open = true;
 	
 	Zwembad (String n) {
 		naam = n;
@@ -20,15 +21,17 @@ public class Zwembad {
 	Kassa kassa = new Kassa();
 	
 	void dag() {
-		opening();
-		stap(8,15);
-		eindeDag();
-		
+		while(open) {
+			String tempNaamDag = opening();
+			stap(8,15);
+			eindeDag(tempNaamDag);
+		}
 	}
 	
-	void opening() {
+	String opening() {
 		Onderdelen.add(new Bad(1000, 25, 30));
-		System.out.println("Goedemorgen! Het is " + DagGenerator.setWeekdag().dagVanDeWeek + ", tijd om het " + naam + " te openen\nHoeveel entree wil je vragen?");
+		String dagVanWeek = DagGenerator.setWeekdag().dagVanDeWeek;
+		System.out.println("Goedemorgen! Het is " + dagVanWeek + ", tijd om het " + naam + " te openen\nHoeveel entree wil je vragen?");
 		int invoer = sc.nextInt();
 		toegangsprijs = invoer;
 		sc.nextLine();
@@ -38,6 +41,7 @@ public class Zwembad {
 		veiligheidswaarde = setVeiligheidswaarde(invoer);
 		sc.nextLine();
 		setPopulariteitOnderdelen();
+		return dagVanWeek;
 	}
 	
 	void stap (int openingsUur, int sluitingsUur) {
@@ -52,10 +56,21 @@ public class Zwembad {
 		kassa.betaalBadMeester(openingsUur, sluitingsUur, badmeesters);
 	}
 	
-	void eindeDag() {
+	void eindeDag(String dagVanWeek) {
+		reparatieOfOnderhoud();
 		kassa.setOmzet(toegangsprijs);
-		kassa.maakDagRapport(DagGenerator.setWeekdag().dagVanDeWeek, kassa.totaalSalarisBadmeester(badmeesters), toegangsprijs, badmeesters);
-		kassa.toonDagRapport();
+		kassa.maakDagRapport(dagVanWeek, kassa.totaalSalarisBadmeester(badmeesters), toegangsprijs, badmeesters);
+		System.out.println("Einde van de dag, druk op enter voor de volgende dag. Of q om af te sluiten en de dagrapporten te tonen.");
+		String inv = sc.nextLine();
+		if(inv.equals("q")) {
+			kassa.toonDagRapport();
+			open = false;
+		} 
+		kassa.clearWaardes();
+		badmeesters.clear();
+		veiligheidswaarde = 0;
+		totaalPopulariteit = 0;
+		Onderdelen.clear();
 	}
 		
 	void slijtageOnderdelen (Onderdeel... O ) {
@@ -63,9 +78,7 @@ public class Zwembad {
 			if (On instanceof Onderhoudbaar) {
 				On.kansOpKapot -= 10;
 				((Onderhoudbaar)On).kansOpKapot();
-				
 			}
-		
 		}
 	}
 
@@ -103,8 +116,8 @@ public class Zwembad {
 	}
 	
 	String genereerCalamiteit() {
-		if(totaalPopulariteit > 10) {
-			totaalPopulariteit -= 10;
+		if(totaalPopulariteit > 20) {
+			totaalPopulariteit -= 20;
 		}
 		Random rand = new Random();
 		return calamiteiten.get(rand.nextInt(calamiteiten.size() - 1));
@@ -128,6 +141,26 @@ public class Zwembad {
 					
 				}		
 			}		
+		}
+	}
+	
+	void reparatieOfOnderhoud() {
+		for (Onderdeel o : Onderdelen) {
+			if(o.kapot == true) {
+				System.out.println("Wilt u een monteur inhuren voor de reparatie? j/n");
+				String inv = sc.nextLine();
+				if(inv.equals("j")) {
+					kassa.kostenOnderhoudReparatie += Monteur.reparatiePrijs;
+					new Monteur().repareren((Onderhoudbaar) o); 
+				}
+			} else if (o.kansOpKapot < 100){
+				System.out.println("Wilt u onderhoud uitvoeren aan dit onderdeel?");
+				String inv = sc.nextLine();
+				if(inv.equals("j")) {
+					kassa.kostenOnderhoudReparatie += Monteur.onderhoudPrijs;
+					new Monteur().onderhouden((Onderhoudbaar) o); 
+				}
+			}
 		}
 	}
 }

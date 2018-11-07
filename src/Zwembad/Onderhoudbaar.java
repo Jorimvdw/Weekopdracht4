@@ -17,7 +17,6 @@ interface Onderhoudbaar {
 		((Onderdeel)o).kansOpKapot -= 10;
 		o.kansOpKapot();
 	}		
-	
 }
 
 class OnderdeelKapotException extends Exception{
