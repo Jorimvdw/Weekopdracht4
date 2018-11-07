@@ -42,8 +42,8 @@ public class Kassa {
 		}
 	}
 		
-	void maakDagRapport(Weekdag dagVanDeWeek, int totaalAantalBezoekers, int dagOmzet, int totaalSalarisBadmeester) {
-		DagRapport rapport = new DagRapport(dagVanDeWeek, totaalAantalBezoekers, dagOmzet, totaalSalarisBadmeester);
+	void maakDagRapport(Weekdag dagVanDeWeek, int totaalSalarisBadmeester, int toegangsprijs) {
+		DagRapport rapport = new DagRapport(dagVanDeWeek, getBezoekersOverzicht(), getOmzet(toegangsprijs), totaalSalarisBadmeester);
 		dagRapporten.add(rapport);
 	}
 	
@@ -65,9 +65,9 @@ class DagRapport {
 	int totaalAantalBezoekers;
 	int dagOmzet;
 	int totaalSalarisBadmeester;
-	int kostenOnderhoud;
-	int kostenReparatie;
-	int dagWinst = dagOmzet - (kostenOnderhoud + kostenReparatie + totaalSalarisBadmeester);
+//	int kostenOnderhoud;
+//	int kostenReparatie;
+	int dagWinst = dagOmzet - (totaalSalarisBadmeester);
 	
 	DagRapport(Weekdag dagVanDeWeek, int totaalAantalBezoekers, int dagOmzet, int totaalSalarisBadmeester) {
 		this.dagVanDeWeek = dagVanDeWeek;
