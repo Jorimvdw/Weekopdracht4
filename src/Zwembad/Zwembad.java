@@ -10,7 +10,8 @@ public class Zwembad {
 											  , "Dode door verdrinking", "Iemand heeft in het bad gepoept");
 	String naam;
 	int veiligheidswaarde;
-	int toegangsprijs;		
+	int toegangsprijs;	
+	int totaalPopulariteit;
 	
 	Zwembad (String n) {
 		naam = n;
@@ -26,47 +27,54 @@ public class Zwembad {
 	
 	void opening() {
 		Onderdelen.add(new Bad(1000, 25, 30));
-		System.out.println("Goedemorgen! Het is " + DagGenerator.setWeekdag().dagVanDeWeek + ", tijd om het zwembad te openen\nHoeveel entree wil je vragen?");
+		System.out.println("Goedemorgen! Het is " + DagGenerator.setWeekdag().dagVanDeWeek + ", tijd om het " + naam + " te openen\nHoeveel entree wil je vragen?");
 		int invoer = sc.nextInt();
 		toegangsprijs = invoer;
 		sc.nextLine();
-		System.out.println("U heeft " + aantalBadmeestersNodig() + " badmeesters nodig.\nHoeveel wilt u er inhuren?");
+		System.out.println("U heeft " + aantalBadmeestersNodig() + " badmeesters nodig om risico tot calamiteiten te minimaliseren.\nHoeveel wilt u er inhuren?");
 		invoer = sc.nextInt();
 		huurBadMeester(invoer);
 		veiligheidswaarde = setVeiligheidswaarde(invoer);
 		sc.nextLine();
+		setPopulariteitOnderdelen();
 	}
 	
 	void stap (int openingsUur, int sluitingsUur) {
 		for(int uur = openingsUur ; uur < sluitingsUur; uur++) {
-			int tempBezoekers = BezoekerGenerator.gegenereerdeBezoekers(setPopulariteitOnderdelen());
+			int tempBezoekers = BezoekerGenerator.gegenereerdeBezoekers(totaalPopulariteit);
 			System.out.println("Het is " + uur + ":00 uur. Dit uur komen er " + tempBezoekers + " bezoekers.");
 			kassa.setBezoekersOverzicht(tempBezoekers);
 			System.out.println(kansOpCalamiteit(veiligheidswaarde));
 			sc.nextLine();
 			System.out.println(veiligheidswaarde);
+			System.out.println(totaalPopulariteit);
 		}
 		kassa.betaalBadMeester(openingsUur, sluitingsUur, badmeesters);
 	}
 	
-	
-	
-	
+	void eindeDag() {
+		kassa.setOmzet(toegangsprijs);
+		System.out.println("Het totaal aantal bezoekers van vandaag " + kassa.getBezoekersOverzicht());
+		System.out.println("De totale omzet van vandaag is €" + kassa.getOmzet(toegangsprijs));
+		kassa.maakDagRapport(DagGenerator.setWeekdag().dagVanDeWeek, totaalSalarisBadmeester, toegangsprijs);
+	}
+		
+	void slijtageOnderdelen (Onderdeel... O ) {
+		for (Onderdeel On : O) {
+			if (On instanceof Onderhoudbaar) {
+				On.kansOpKapot -= 10;
+				((Onderhoudbaar)On).kansOpKapot();
+				
+			}
+		
+		}
+	}
 
 	int setPopulariteitOnderdelen() {
-		if(kansOpCalamiteit(veiligheidswaarde)) {
-			int populariteitOnderdelen = 0;
 			for(int i = 0; i < Onderdelen.size(); i++) {
-				populariteitOnderdelen += Onderdelen.get(i).populariteit;
+				totaalPopulariteit += Onderdelen.get(i).populariteit;
 			}
-			return populariteitOnderdelen / 10;
-		} else {
-			int populariteitOnderdelen = 0;
-			for(int i = 0; i < Onderdelen.size(); i++) {
-				populariteitOnderdelen += Onderdelen.get(i).populariteit;
-			}
-			return populariteitOnderdelen;
-		}
+			return totaalPopulariteit;
 	}
 	
 	boolean kansOpCalamiteit(int veiligheidswaarde) {
@@ -98,6 +106,9 @@ public class Zwembad {
 	}
 	
 	String genereerCalamiteit() {
+		if(totaalPopulariteit > 10) {
+			totaalPopulariteit -= 10;
+		}
 		Random rand = new Random();
 		return calamiteiten.get(rand.nextInt(calamiteiten.size() - 1));
 	}
